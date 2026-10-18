@@ -1,0 +1,538 @@
+.campaign-journey {
+  margin-block: 24px;
+  color: var(--canvas);
+}
+.brief-launch {
+  display: none;
+}
+.campaign-journey[data-ready="true"] .brief-launch {
+  display: block;
+}
+.campaign-journey[data-ready="true"] .brief-fallback {
+  display: none;
+}
+.brief-launch p,
+.brief-fallback p {
+  margin-top: 12px;
+  color: #c5c3bb;
+  font-size: 14px;
+}
+.brief-launch .button {
+  font-size: 14px;
+}
+.brief-fallback .text-link {
+  margin-top: 12px;
+}
+.brief-dialog {
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  width: min(620px, calc(100% - 32px));
+  height: min(720px, calc(100dvh - 32px));
+  max-height: calc(100dvh - 32px);
+  max-width: calc(100% - 32px);
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--canvas);
+  overscroll-behavior: contain;
+  color-scheme: light;
+}
+.brief-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: dialog-enter 220ms var(--ease) both;
+}
+.brief-dialog::backdrop {
+  background: rgb(25 25 25 / 0.62);
+}
+.brief-dialog[open]::backdrop {
+  animation: backdrop-enter 220ms var(--ease) both;
+}
+.brief-dialog[data-closing="true"] {
+  animation: dialog-exit 200ms var(--ease) both;
+}
+.brief-dialog[data-closing="true"]::backdrop {
+  animation: backdrop-exit 200ms var(--ease) both;
+}
+.brief-modal-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px 12px 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+.campaign-journey .brief-dialog .brief-modal-header h2 {
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.campaign-journey .brief-dialog .brief-modal-header h2 span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+.brief-close {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background: transparent;
+  color: var(--ink);
+}
+.brief-close:hover {
+  background: #eae6dd;
+}
+.brief-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+.brief-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+}
+.brief-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 22px 28px;
+  scrollbar-gutter: stable;
+}
+.brief-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.brief-progress p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.brief-progress > span {
+  display: flex;
+  gap: 6px;
+}
+.brief-progress i {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--hairline);
+}
+.brief-progress i[data-current="true"] {
+  background: var(--ink);
+}
+.brief-step {
+  padding-top: 20px;
+  animation: brief-step-in 220ms var(--ease) both;
+}
+.brief-step h3 {
+  font-size: 30px;
+  line-height: 1.2;
+}
+.brief-step h3:focus {
+  outline: none;
+}
+.brief-hint {
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.brief-field {
+  margin-top: 19px;
+  min-width: 0;
+}
+.brief-field label,
+.brief-dialog legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.brief-field label span,
+.brief-dialog legend > span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.brief-field .brief-icon,
+.brief-dialog legend .brief-icon,
+.brief-review dt .brief-icon {
+  color: var(--muted);
+}
+.brief-field input,
+.brief-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid #a09c94;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.brief-field input[type="date"] {
+  appearance: auto;
+  min-height: 50px;
+}
+.brief-field textarea {
+  resize: vertical;
+}
+.brief-field input::placeholder,
+.brief-field textarea::placeholder {
+  color: #68655e;
+  opacity: 1;
+}
+.brief-field :is(input, textarea)[aria-invalid="true"] {
+  border-color: #a13322;
+}
+.brief-error {
+  color: #a13322;
+  font-size: 13px;
+  margin-top: 7px;
+}
+.brief-dialog fieldset {
+  margin: 20px 0 0;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.brief-dialog legend {
+  padding: 0;
+  width: 100%;
+}
+.brief-choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.brief-choice,
+.brief-budget-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #a09c94;
+  border-radius: 5px;
+  min-height: 46px;
+  font-size: 14px;
+  background: transparent;
+  transition:
+    border-color 150ms,
+    background 150ms;
+}
+.brief-choice {
+  padding: 10px 16px;
+  flex: 1;
+}
+.brief-choice input,
+.brief-budget-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.brief-choice:has(input:checked),
+.brief-budget-option:has(input:checked) {
+  border-color: var(--cobalt);
+  background: #e9edfb;
+}
+.brief-choice:has(input:focus-visible),
+.brief-budget-option:has(input:focus-visible) {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 3px;
+}
+.brief-budget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.brief-budget-option {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-height: 72px;
+  padding: 11px 13px;
+}
+.brief-budget-option > span {
+  font-weight: 500;
+  font-size: 15px;
+}
+.brief-budget-option small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.brief-conversion {
+  padding-top: 16px;
+}
+.brief-conversion p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.brief-conversion .brief-estimate {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.brief-conversion a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+}
+.brief-actions {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 28px;
+  border-top: 1px solid var(--hairline);
+  background: var(--canvas);
+}
+.brief-actions .button {
+  font-size: 14px;
+  padding-inline: 20px;
+  max-width: 100%;
+  gap: 14px;
+}
+.brief-back,
+.brief-copy button,
+.brief-review button,
+.brief-text-button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  padding: 10px 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.brief-back {
+  padding-inline: 4px;
+}
+.brief-review {
+  margin-top: 20px;
+}
+.brief-review > section {
+  border-bottom: 1px solid var(--hairline);
+  padding-block: 10px 16px;
+}
+.brief-review-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.brief-review h4 {
+  font-size: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.brief-review button {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 56px;
+  gap: 12px;
+}
+.brief-review dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.brief-review dt .brief-icon {
+  width: 15px;
+  height: 15px;
+}
+.brief-review dd {
+  margin: 4px 0 0 23px;
+  font-size: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.brief-review dd small {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.brief-copy {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+}
+.brief-copy > p,
+.brief-copy > .brief-field {
+  width: 100%;
+  font-size: 13px;
+}
+.brief-copy > p:empty {
+  display: none;
+}
+.brief-privacy {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.campaign-journey .brief-dialog :focus-visible {
+  outline-color: var(--cobalt);
+}
+@keyframes brief-step-in {
+  from {
+    opacity: 0.35;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 767px) {
+  .brief-dialog {
+    width: calc(100% - 16px);
+    max-width: calc(100% - 16px);
+    height: calc(100dvh - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 8px;
+  }
+  .brief-modal-header {
+    padding: 10px 12px 10px 20px;
+  }
+  .campaign-journey .brief-dialog .brief-modal-header h2 span {
+    display: none;
+  }
+  .brief-scroll {
+    padding: 20px;
+  }
+  .brief-step h3 {
+    font-size: 27px;
+  }
+  .brief-actions {
+    padding: 14px 20px max(14px, env(safe-area-inset-bottom));
+  }
+  .brief-actions .button {
+    padding-inline: 16px;
+    gap: 10px;
+  }
+  .brief-budget-option {
+    padding-inline: 10px;
+  }
+  .brief-budget-option > span {
+    font-size: 13px;
+  }
+  .brief-budget-option small {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brief-step {
+    animation: none;
+  }
+}
+.contact-layout {
+  align-items: start;
+}
+.contact-layout > * {
+  min-width: 0;
+}
+.contact-layout h2 {
+  overflow-wrap: anywhere;
+}
+.brief-email-fallback {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 14px;
+  text-decoration: underline;
+}
+.brief-send-error {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid #a13322;
+  border-radius: 5px;
+  color: #8b281b;
+  font-size: 14px;
+}
+.brief-send-error p {
+  margin: 0;
+}
+.brief-send-error ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.brief-dialog button:disabled,
+.brief-dialog input:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+.brief-success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+.brief-success h3 {
+  font-size: 34px;
+  line-height: 1.2;
+}
+.brief-success h3:focus {
+  outline: none;
+}
+.brief-success p {
+  font-size: 16px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.brief-success-icon {
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+}
+.brief-success-icon .brief-icon {
+  width: 24px;
+  height: 24px;
+}
+.brief-success .brief-success-brand {
+  font-size: 14px;
+}
