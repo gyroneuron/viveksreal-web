@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "./motion.css";
+import { ReelPlaybackProvider } from "./components/reel-playback";
+import { MotionDirector } from "./components/motion-director";
 
 const inter = localFont({
   src: "./fonts/inter-latin.woff2",
@@ -36,7 +39,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${space.variable}`}>
-      <body>{children}</body>
+      <body>
+        <ReelPlaybackProvider>{children}</ReelPlaybackProvider>
+        <MotionDirector />
+      </body>
     </html>
   );
 }

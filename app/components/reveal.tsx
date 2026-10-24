@@ -1,6 +1,4 @@
-"use client";
-import { useEffect, useRef } from "react";
-
+// Retained as a layout wrapper. MotionDirector owns the selective reveal layer.
 export function Reveal({
   children,
   className = "",
@@ -8,30 +6,5 @@ export function Reveal({
   children: React.ReactNode;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const node = ref.current;
-    if (
-      !node ||
-      !window.IntersectionObserver ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          node.dataset.revealed = "true";
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
-  );
+  return <div className={className}>{children}</div>;
 }

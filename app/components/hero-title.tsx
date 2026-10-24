@@ -3,11 +3,21 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
-const words =
-  "Make your product useful to the next generation of builders.".split(" ");
 type Line = { words: string[]; top: number; height: number; delay: number };
 
-export function HeroTitle() {
+export function HeroTitle({
+  id = "hero-title",
+  text = "Make your product useful to the next generation of builders.",
+  accentText = "builders.",
+  compact = false,
+}: {
+  id?: string;
+  text?: string;
+  accentText?: string;
+  compact?: boolean;
+}) {
+  const words = text.split(" ");
+  const accentWords = new Set(accentText.split(" "));
   const title = useRef<HTMLHeadingElement>(null);
   const [lines, setLines] = useState<Line[] | null>(null);
 
@@ -53,7 +63,10 @@ export function HeroTitle() {
           delay: index * stagger,
         })),
       );
-      timer = setTimeout(finish, 750 + (groups.length - 1) * stagger);
+      timer = setTimeout(
+        finish,
+        (compact ? 550 : 750) + (groups.length - 1) * stagger,
+      );
       if (window.ResizeObserver) {
         const width = node.getBoundingClientRect().width;
         resize = new ResizeObserver(() => {
@@ -69,12 +82,12 @@ export function HeroTitle() {
       resize?.disconnect();
       motion.removeEventListener("change", preferenceChanged);
     };
-  }, []);
+  }, [compact]);
 
   return (
     <h1
-      id="hero-title"
-      className="hero-title"
+      id={id}
+      className={`hero-title${compact ? " hero-title-compact" : ""}`}
       ref={title}
       data-masked={lines ? "true" : undefined}
     >
@@ -83,7 +96,7 @@ export function HeroTitle() {
           <Fragment key={word + index}>
             <span
               data-hero-word
-              className={word === "builders." ? "accent" : undefined}
+              className={accentWords.has(word) ? "accent" : undefined}
             >
               {word}
             </span>
@@ -107,7 +120,7 @@ export function HeroTitle() {
           <span className="hero-line-content">
             {line.words.map((word, wordIndex) => (
               <Fragment key={word + wordIndex}>
-                <span className={word === "builders." ? "accent" : undefined}>
+                <span className={accentWords.has(word) ? "accent" : undefined}>
                   {word}
                 </span>
                 {wordIndex < line.words.length - 1 ? " " : null}

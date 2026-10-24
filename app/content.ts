@@ -24,7 +24,7 @@ export const recentProof = {
   metrics: [
     {
       id: "followers",
-      value: "21.5K",
+      value: "21.1K",
       label: "Instagram followers",
       scope: `${audienceInsights.followers.toLocaleString("en-IN")} in follower export`,
     },

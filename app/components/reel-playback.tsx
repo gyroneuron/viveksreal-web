@@ -19,6 +19,7 @@ type Preview = {
 };
 type Playback = {
   canPreview: boolean;
+  dialogActive: boolean;
   registerPreview: (video: HTMLVideoElement, target: HTMLElement) => () => void;
   setPreviewPaused: (video: HTMLVideoElement, paused: boolean) => void;
   isSelected: (video: HTMLVideoElement) => boolean;
@@ -43,6 +44,7 @@ export function ReelPlaybackProvider({
   const permitted = useRef(false);
   const dialogOpen = useRef(false);
   const [canPreview, setCanPreview] = useState(false);
+  const [dialogActive, setDialogActive] = useState(false);
 
   const reconcile = useCallback((preferred?: HTMLVideoElement) => {
     const entries = [...previews.current.values()];
@@ -82,7 +84,8 @@ export function ReelPlaybackProvider({
         video,
         target,
         visible: false,
-        userPaused: false,
+        userPaused: window.matchMedia("(hover: none), (pointer: coarse)")
+          .matches,
       };
       previews.current.set(video, entry);
       observer.current?.observe(target);
@@ -121,10 +124,12 @@ export function ReelPlaybackProvider({
   );
   const openDialog = useCallback(() => {
     dialogOpen.current = true;
+    setDialogActive(true);
     reconcile();
   }, [reconcile]);
   const closeDialog = useCallback(() => {
     dialogOpen.current = false;
+    setDialogActive(false);
     reconcile();
   }, [reconcile]);
 
@@ -172,6 +177,7 @@ export function ReelPlaybackProvider({
     const briefVisibilityChanged = (event: Event) => {
       if (event instanceof CustomEvent) {
         dialogOpen.current = Boolean(event.detail);
+        setDialogActive(Boolean(event.detail));
         reconcile();
       }
     };
@@ -200,6 +206,7 @@ export function ReelPlaybackProvider({
   const value = useMemo(
     () => ({
       canPreview,
+      dialogActive,
       registerPreview,
       setPreviewPaused,
       isSelected,
@@ -209,6 +216,7 @@ export function ReelPlaybackProvider({
     }),
     [
       canPreview,
+      dialogActive,
       registerPreview,
       setPreviewPaused,
       isSelected,

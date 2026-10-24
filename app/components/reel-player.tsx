@@ -11,10 +11,14 @@ export function ReelPlayer({
   campaign,
   featured = false,
   editorial = false,
+  previewEnabled = true,
+  sequence = false,
 }: {
   campaign: Campaign;
   featured?: boolean;
   editorial?: boolean;
+  previewEnabled?: boolean;
+  sequence?: boolean;
 }) {
   const media = mediaPresentation[campaign.id];
   const poster = media?.poster ?? campaign.image;
@@ -58,9 +62,12 @@ export function ReelPlayer({
     };
   }, [finishClose]);
   useEffect(() => {
-    if (preview.current && trigger.current)
-      return registerPreview(preview.current, trigger.current);
-  }, [registerPreview]);
+    if (previewEnabled && preview.current && trigger.current) {
+      const unregister = registerPreview(preview.current, trigger.current);
+      if (sequence) setPreviewPaused(preview.current, false);
+      return unregister;
+    }
+  }, [registerPreview, previewEnabled, sequence, setPreviewPaused]);
   useEffect(() => {
     const player = video.current;
     if (!active || !player) return;
@@ -69,17 +76,19 @@ export function ReelPlayer({
     void player.play().catch(() => {
       if (!cancelled) setPlaybackBlocked(true);
     });
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) player.pause();
-    });
+    const observer = window.IntersectionObserver
+      ? new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) player.pause();
+        })
+      : null;
     const pauseWhenHidden = () => {
       if (document.hidden) player.pause();
     };
-    observer.observe(player);
+    observer?.observe(player);
     document.addEventListener("visibilitychange", pauseWhenHidden);
     return () => {
       cancelled = true;
-      observer.disconnect();
+      observer?.disconnect();
       document.removeEventListener("visibilitychange", pauseWhenHidden);
       player.pause();
     };
@@ -140,10 +149,14 @@ export function ReelPlayer({
             setPlaybackBlocked(false);
             setActive(true);
             dialog.current.showModal();
+            const origin = event.currentTarget.getBoundingClientRect();
+            const destination = dialog.current.getBoundingClientRect();
+            dialog.current.style.transformOrigin = `${Math.max(0, Math.min(100, ((origin.x + origin.width / 2 - destination.x) / destination.width) * 100))}% ${Math.max(0, Math.min(100, ((origin.y + origin.height / 2 - destination.y) / destination.height) * 100))}%`;
           }}
         >
           <Image
             src={poster}
+            preload={sequence && campaign.id === "propeers"}
             alt={
               campaign.id === "propeers"
                 ? "Vivek in the ProPeers split-screen developer-roadmap video"
@@ -159,7 +172,7 @@ export function ReelPlayer({
           />
           <video
             ref={preview}
-            className={`reel-preview${previewHasFrame && canPreview ? " has-frame" : ""}`}
+            className={`reel-preview${previewHasFrame && canPreview && previewEnabled ? " has-frame" : ""}`}
             data-src={source}
             muted
             loop
@@ -187,10 +200,10 @@ export function ReelPlayer({
             >
               <path d="m5 2 9 6-9 6z" />
             </svg>{" "}
-            {editorial ? "Watch the Reel" : "Watch the collaboration"}
+            {editorial ? "Watch the Reel" : "Play film"} <Arrow diagonal />
           </span>
         </a>
-        {canPreview && previewHasFrame ? (
+        {canPreview && !sequence ? (
           <button
             className="preview-toggle"
             type="button"

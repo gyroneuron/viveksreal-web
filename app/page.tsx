@@ -3,7 +3,7 @@ import {
   CampaignBriefLink,
 } from "./components/campaign-brief";
 import { DisclosureIcon } from "./components/disclosure-icon";
-import Image from "next/image";
+import { CampaignComposition } from "./components/campaign-composition";
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { AudienceInsights } from "./components/audience-insights";
@@ -12,7 +12,6 @@ import { Reveal } from "./components/reveal";
 import { Arrow } from "./components/arrow";
 import { Journey } from "./components/journey";
 import { RecentProof } from "./components/recent-proof";
-import { ReelPlaybackProvider } from "./components/reel-playback";
 import { HeroTitle } from "./components/hero-title";
 import { Disclosure } from "./components/disclosure";
 import {
@@ -88,181 +87,159 @@ export default function Home() {
               </span>
             </p>
           </div>
-          <figure className="hero-figure">
-            <div className="hero-image-wrap">
-              <Image
-                src="/media/propeers.jpg"
-                alt="Vivek in a frame from his ProPeers developer-roadmap collaboration"
-                fill
-                preload
-                sizes="(max-width: 767px) 100vw, 42vw"
-                className="hero-image"
-              />
-              <span className="image-index" aria-hidden="true">
-                VJ—01
-              </span>
-            </div>
-            <figcaption>
-              <span>A frame from the ProPeers collaboration.</span>
-              <span className="figure-mark" aria-hidden="true">
-                ↗
-              </span>
-            </figcaption>
-          </figure>
+          <CampaignComposition />
         </section>
 
         <RecentProof />
 
-        <ReelPlaybackProvider>
-          <section
-            id="work"
-            className="section shell"
-            aria-labelledby="work-title"
-          >
-            <Reveal>
-              <div className="territory-strip" aria-label="Content territories">
-                <p className="small-label">
-                  Content
-                  <br />
-                  territories
-                </p>
-                <p>
-                  <span>01</span> Tech &amp; tools
-                </p>
-                <p>
-                  <span>02</span> Careers &amp; learning
-                </p>
-                <p>
-                  <span>03</span> Startups &amp; builders
-                </p>
-              </div>
-
-              <SectionLabel number="01">Selected collaborations</SectionLabel>
-              <div className="section-heading">
-                <h2 id="work-title">
-                  Good products.
-                  <br />
-                  <span className="muted">Human stories.</span>
-                </h2>
-                <p>
-                  A useful idea is the starting point.
-                  <br />
-                  Here’s what that looks like in practice.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal className="lead-project">
-              <div className="campaign-stage lead-stage">
-                <span className="stage-label">01 / PROPEERS</span>
-                <ReelPlayer campaign={lead} featured />
-                <span className="stage-footnote">A clearer next step.</span>
-                <span className="stage-corner" aria-hidden="true">
-                  ↗
-                </span>
-              </div>
-              <div className="project-story">
-                <p className="eyebrow">{lead.category}</p>
-                <h3>{lead.title}</h3>
-                <p className="project-description">{lead.description}</p>
-                <dl className="project-details">
-                  <div>
-                    <dt>The idea</dt>
-                    <dd>
-                      Turn “what should I learn next?” into a practical starting
-                      point.
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>The format</dt>
-                    <dd>
-                      A creator-led Instagram Reel with a developer-roadmap
-                      resource.
-                    </dd>
-                  </div>
-                </dl>
-                <div
-                  className="campaign-results"
-                  aria-label="ProPeers reported Reel results"
-                >
-                  <dl className="campaign-result-metrics">
-                    {propeersResults.metrics.map((metric) => (
-                      <div key={metric.label}>
-                        <dt>{metric.label}</dt>
-                        <dd>{metric.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <p>
-                    Reel results ·{" "}
-                    <time dateTime={propeersResults.posted}>21 Feb</time>–
-                    <time dateTime={propeersResults.cutoff}>16 Oct 2026</time>
-                    <br />
-                    Source: {propeersResults.source} · Rounded figures
-                  </p>
-                </div>
-                <a
-                  className="text-link"
-                  href={lead.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Watch on Instagram <Arrow diagonal />
-                </a>
-                <CampaignBriefLink
-                  className="subtle-link"
-                  targetId="contact"
-                  context="A developer-tool campaign like ProPeers"
-                >
-                  Discuss a similar campaign
-                </CampaignBriefLink>
-              </div>
-            </Reveal>
-            <div className="supporting-projects">
-              {campaigns.slice(1).map((campaign) => (
-                <Reveal className="supporting-project" key={campaign.id}>
-                  <div className={`campaign-stage ${campaign.id}-stage`}>
-                    <span className="stage-label">
-                      {campaign.index} / {campaign.brand.toUpperCase()}
-                    </span>
-                    <ReelPlayer campaign={campaign} />
-                    <span className="stage-corner" aria-hidden="true">
-                      ↗
-                    </span>
-                  </div>
-                  <div className="supporting-caption">
-                    <div>
-                      <p className="eyebrow">
-                        {campaign.brand} / {campaign.category}
-                      </p>
-                      <h3>{campaign.title}</h3>
-                      <p>{campaign.description}</p>
-                    </div>
-                    <a
-                      className="circle-link"
-                      href={campaign.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Watch the ${campaign.brand} collaboration on Instagram`}
-                    >
-                      <Arrow diagonal />
-                    </a>
-                  </div>
-                </Reveal>
-              ))}
+        <section
+          id="work"
+          className="section shell"
+          aria-labelledby="work-title"
+        >
+          <Reveal>
+            <div className="territory-strip" aria-label="Content territories">
+              <p className="small-label">
+                Content
+                <br />
+                territories
+              </p>
+              <p>
+                <span>01</span> Tech &amp; tools
+              </p>
+              <p>
+                <span>02</span> Careers &amp; learning
+              </p>
+              <p>
+                <span>03</span> Startups &amp; builders
+              </p>
             </div>
-            <div className="work-footer">
-              <p>More of the everyday thinking, building, and creating.</p>
+
+            <SectionLabel number="01">Selected collaborations</SectionLabel>
+            <div className="section-heading">
+              <h2 id="work-title">
+                Good products.
+                <br />
+                <span className="muted">Human stories.</span>
+              </h2>
+              <p>
+                A useful idea is the starting point.
+                <br />
+                Here’s what that looks like in practice.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal className="lead-project">
+            <div className="campaign-stage lead-stage">
+              <span className="stage-label">01 / PROPEERS</span>
+              <ReelPlayer campaign={lead} featured />
+              <span className="stage-footnote">A clearer next step.</span>
+              <span className="stage-corner" aria-hidden="true">
+                ↗
+              </span>
+            </div>
+            <div className="project-story">
+              <p className="eyebrow">{lead.category}</p>
+              <h3>{lead.title}</h3>
+              <p className="project-description">{lead.description}</p>
+              <dl className="project-details">
+                <div>
+                  <dt>The idea</dt>
+                  <dd>
+                    Turn “what should I learn next?” into a practical starting
+                    point.
+                  </dd>
+                </div>
+                <div>
+                  <dt>The format</dt>
+                  <dd>
+                    A creator-led Instagram Reel with a developer-roadmap
+                    resource.
+                  </dd>
+                </div>
+              </dl>
+              <div
+                className="campaign-results"
+                aria-label="ProPeers reported Reel results"
+              >
+                <dl className="campaign-result-metrics">
+                  {propeersResults.metrics.map((metric) => (
+                    <div key={metric.label}>
+                      <dt>{metric.label}</dt>
+                      <dd>{metric.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p>
+                  Reel results ·{" "}
+                  <time dateTime={propeersResults.posted}>21 Feb</time>–
+                  <time dateTime={propeersResults.cutoff}>16 Oct 2026</time>
+                  <br />
+                  Source: {propeersResults.source} · Rounded figures
+                </p>
+              </div>
               <a
                 className="text-link"
-                href={contact.instagram}
+                href={lead.url}
                 target="_blank"
                 rel="noreferrer"
               >
-                Find me on Instagram <Arrow diagonal />
+                Watch on Instagram <Arrow diagonal />
               </a>
+              <CampaignBriefLink
+                className="subtle-link"
+                targetId="contact"
+                context="A developer-tool campaign like ProPeers"
+              >
+                Discuss a similar campaign
+              </CampaignBriefLink>
             </div>
-          </section>
-        </ReelPlaybackProvider>
+          </Reveal>
+          <div className="supporting-projects">
+            {campaigns.slice(1).map((campaign) => (
+              <Reveal className="supporting-project" key={campaign.id}>
+                <div className={`campaign-stage ${campaign.id}-stage`}>
+                  <span className="stage-label">
+                    {campaign.index} / {campaign.brand.toUpperCase()}
+                  </span>
+                  <ReelPlayer campaign={campaign} />
+                  <span className="stage-corner" aria-hidden="true">
+                    ↗
+                  </span>
+                </div>
+                <div className="supporting-caption">
+                  <div>
+                    <p className="eyebrow">
+                      {campaign.brand} / {campaign.category}
+                    </p>
+                    <h3>{campaign.title}</h3>
+                    <p>{campaign.description}</p>
+                  </div>
+                  <a
+                    className="circle-link"
+                    href={campaign.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Watch the ${campaign.brand} collaboration on Instagram`}
+                  >
+                    <Arrow diagonal />
+                  </a>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <div className="work-footer">
+            <p>More of the everyday thinking, building, and creating.</p>
+            <a
+              className="text-link"
+              href={contact.instagram}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Find me on Instagram <Arrow diagonal />
+            </a>
+          </div>
+        </section>
 
         <section
           id="audience"
@@ -415,11 +392,17 @@ export default function Home() {
             <SectionLabel number="05">Let’s make something useful</SectionLabel>
             <Reveal className="contact-layout">
               <h2 id="contact-title">
-                Have a product
-                <br />
-                my audience
-                <br />
-                should <span>know about?</span>
+                <span className="closing-line">
+                  <span>Have a product</span>
+                </span>
+                <span className="closing-line">
+                  <span>my audience</span>
+                </span>
+                <span className="closing-line">
+                  <span>
+                    should <em>know about?</em>
+                  </span>
+                </span>
               </h2>
               <div className="contact-copy">
                 <p>
